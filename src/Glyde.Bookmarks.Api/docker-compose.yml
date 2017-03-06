@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  glyde.bookmarks.api:
+    image: user/glyde.bookmarks.api
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        source: ${DOCKER_BUILD_SOURCE}

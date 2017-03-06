@@ -1,0 +1,42 @@
+﻿<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" />
+  <PropertyGroup>
+    <TargetFramework>netstandard1.6</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="**\*.cs" />
+    <EmbeddedResource Include="**\*.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Core">
+      <Version>1.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.ViewFeatures">
+      <Version>1.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="NETStandard.Library">
+      <Version>1.6.1</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Sdk">
+      <Version>1.0.0-alpha-20161104-2</Version>
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="WindowsAzure.Storage">
+      <Version>8.1.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Glyde.AspNetCore.Common\Glyde.AspNetCore.Common.csproj" />
+    <ProjectReference Include="..\Glyde.Bookmarks.LinkManagement.Contracts\Glyde.Bookmarks.LinkManagement.Contracts.csproj" />
+    <ProjectReference Include="..\Glyde.Bootstrapper\Glyde.Bootstrapper.csproj" />
+    <ProjectReference Include="..\Glyde.Configuration\Glyde.Configuration.csproj" />
+    <ProjectReference Include="..\Glyde.Di.SimpleInjector\Glyde.Di.SimpleInjector.csproj" />
+    <ProjectReference Include="..\Glyde.Di\Glyde.Di.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Activities">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.6.2\System.Activities.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
