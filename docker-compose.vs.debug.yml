@@ -3,10 +3,13 @@ version: '2'
 services:
   glyde.bookmarks.api:
     image: user/glyde.bookmarks.api:dev
+    build:
+      args:
+        source: ${DOCKER_BUILD_SOURCE}
     environment:
       - DOTNET_USE_POLLING_FILE_WATCHER=1
     volumes:
-      - .:/app
+      - ./src/Glyde.Bookmarks.Api:/app
       - ~/.nuget/packages:/root/.nuget/packages:ro
       - ~/clrdbg:/clrdbg:ro
     entrypoint: tail -f /dev/null

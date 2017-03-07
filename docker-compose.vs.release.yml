@@ -2,6 +2,9 @@ version: '2'
 
 services:
   glyde.bookmarks.api:
+    build:
+      args:
+        source: ${DOCKER_BUILD_SOURCE}
     volumes:
       - ~/clrdbg:/clrdbg:ro
     entrypoint: tail -f /dev/null
