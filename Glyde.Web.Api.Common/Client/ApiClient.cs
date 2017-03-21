@@ -77,7 +77,7 @@ namespace Glyde.Web.Api.Client
             throw new NotImplementedException();
         }
 
-        internal ApiClient(HttpClient client, Uri resourceUri)
+        public ApiClient(HttpClient client, Uri resourceUri)
         {
             _client = client;
             _resourceUri = resourceUri;

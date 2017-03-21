@@ -34,7 +34,7 @@ namespace Glyde.Web.Api.Resources
                     // fall back to conventions
                     if (resourceName != "resource" &&
                         resourceName.EndsWith("resource", StringComparison.OrdinalIgnoreCase))
-                        resourceName = resourceName.Remove(0, resourceName.Length - "resource".Length);
+                        resourceName = resourceName.Remove(resourceName.Length - "resource".Length);
                 }
                 else
                 {
