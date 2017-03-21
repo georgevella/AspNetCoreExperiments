@@ -49,5 +49,6 @@
     <ProjectReference Include="..\Glyde.Configuration\Glyde.Configuration.csproj" />
     <ProjectReference Include="..\Glyde.Di.SimpleInjector\Glyde.Di.SimpleInjector.csproj" />
     <ProjectReference Include="..\Glyde.Di\Glyde.Di.csproj" />
+    <ProjectReference Include="..\Glyde.Web.Api.Common\Glyde.Web.Api.Common.csproj" />
   </ItemGroup>
 </Project>

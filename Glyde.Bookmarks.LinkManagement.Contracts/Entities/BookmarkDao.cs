@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.WindowsAzure.Storage.Table;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Glyde.Bookmarks.LinkManagement.Entities
 {
+    [Table("bookmarks")]
     public class BookmarkDao
     {
         [Key]

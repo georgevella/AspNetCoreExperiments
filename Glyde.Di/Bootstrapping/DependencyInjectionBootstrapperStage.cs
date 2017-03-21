@@ -14,12 +14,12 @@ namespace Glyde.Di.Bootstrapping
 
             foreach (var bootstrapper in bootstrappers)
             {
-                bootstrapper.RegisterServices(serviceProviderConfigurator, ConfigurationProvider);
+                bootstrapper.RegisterServices(serviceProviderConfigurator, ConfigurationService);
             }
         }
 
         protected abstract IDependencyInjectionConfigurationBuilder CreateConfigurationBuilder();
 
-        public IConfigurationProvider ConfigurationProvider { get; set; }
+        public IConfigurationService ConfigurationService { get; set; }
     }
 }

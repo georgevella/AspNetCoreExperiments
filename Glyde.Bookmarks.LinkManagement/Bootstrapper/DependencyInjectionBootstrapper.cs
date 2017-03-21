@@ -8,7 +8,7 @@ namespace Glyde.Bookmarks.LinkManagement.Bootstrapper
     public class DependencyInjectionBootstrapper : IDependencyInjectionBootstrapper
     {
         public void RegisterServices(IDependencyInjectionConfigurationBuilder serviceProviderConfigurationBuilder,
-            IConfigurationProvider configurationProvider)
+            IConfigurationService configurationService)
         {
             serviceProviderConfigurationBuilder.AddScopedService<IBookmarkStorage, BookmarkStorage>();
         }

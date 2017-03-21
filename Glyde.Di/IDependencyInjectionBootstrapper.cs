@@ -5,6 +5,6 @@ namespace Glyde.Di
 {
     public interface IDependencyInjectionBootstrapper : IBootstrapper
     {
-        void RegisterServices(IDependencyInjectionConfigurationBuilder serviceProviderConfigurationBuilder, IConfigurationProvider configurationProvider);
+        void RegisterServices(IDependencyInjectionConfigurationBuilder serviceProviderConfigurationBuilder, IConfigurationService configurationService);
     }
 }

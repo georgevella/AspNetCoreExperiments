@@ -1,14 +1,14 @@
-﻿using Glyde.AspNetCore.Controllers;
+﻿using Glyde.Web.Api.Resources;
 
 namespace Glyde.Bookmarks.LinkManagement.Resources
 {
-    [ResourceName("bookmarks")]
-    public class Bookmark
+    [Resource("bookmarks", Version = 2)]
+    public class Bookmark : Resource<string>
     {
         public string Title { get; set; }   
 
         public string Url { get; set; }
 
-
+        public string Id { get; set; }
     }
 }

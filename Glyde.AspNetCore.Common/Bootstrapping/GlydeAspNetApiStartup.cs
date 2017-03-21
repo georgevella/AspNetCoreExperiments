@@ -1,5 +1,7 @@
 using System.Linq;
+using Glyde.AspNetCore.Controllers;
 using Glyde.AspNetCore.Versioning;
+using Glyde.Web.Api.Resources;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
@@ -30,6 +32,7 @@ namespace Glyde.AspNetCore.Bootstrapping
                     options.OutputFormatters.Add(jsonFormatter);
                 }
 
+                options.Conventions.Add(new ApiControllerConvension("api/v[version]", new ResourceMetadataProvider()));
                 options.Conventions.Add(new ApiPrefixConvention("api/v[version]"));
             });
 

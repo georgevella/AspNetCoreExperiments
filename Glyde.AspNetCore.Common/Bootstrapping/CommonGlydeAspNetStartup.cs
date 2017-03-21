@@ -48,11 +48,6 @@ namespace Glyde.AspNetCore.Bootstrapping
 
             //services.AddTransient<IApplicationModelProvider, GlydeApplicationModelProvider>();
 
-            services.Configure<MvcOptions>(options =>
-            {
-                options.Conventions.Add(new ApiControllerConvension());                
-            });
-
             // add application services via bootstrapping
             var thisAssembly = Assembly.GetEntryAssembly();
 

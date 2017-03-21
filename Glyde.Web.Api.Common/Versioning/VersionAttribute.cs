@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Glyde.AspNetCore.Versioning
+namespace Glyde.Web.Api.Versioning
 {
     public class VersionAttribute : Attribute
     {

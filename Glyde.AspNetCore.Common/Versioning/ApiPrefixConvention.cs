@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Reflection;
 using Glyde.AspNetCore.Controllers;
+using Glyde.Web.Api.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
@@ -10,25 +11,28 @@ namespace Glyde.AspNetCore.Versioning
     public class ApiPrefixConvention : IApplicationModelConvention
     {
         private readonly string _prefix;
+        private readonly bool _requiresVersion;
 
         public ApiPrefixConvention(string prefix)
         {
+            if (prefix == null)
+                throw new ArgumentNullException(nameof(prefix));
+
             _prefix = prefix.ToLower();
+            _requiresVersion = _prefix.Contains("[version]");
         }
 
         public void Apply(ApplicationModel application)
         {
             AttributeRouteModel prefixRouteModel = null;
-            var requiresVersion = true;
-            if (!_prefix.Contains("[version]"))
+            if (!_requiresVersion)
             {
                 prefixRouteModel = new AttributeRouteModel(new RouteAttribute(_prefix));
-                requiresVersion = false;
             }
 
             foreach (var controller in application.Controllers)
             {
-                if (requiresVersion)
+                if (_requiresVersion && !controller.ControllerType.GetCustomAttributes<IgnoreVersioningConventionAttribute>(true).Any())
                 {
                     var version = 1;
                     var versionAttribute =
@@ -38,11 +42,7 @@ namespace Glyde.AspNetCore.Versioning
 
                     prefixRouteModel =
                         new AttributeRouteModel(new RouteAttribute(_prefix.Replace("[version]", version.ToString())));
-                }
-
-
-
-                
+                }                
 
                 var matchedSelectors = controller.Selectors.Where(x => x.AttributeRouteModel != null).ToList();
                 if (matchedSelectors.Any())

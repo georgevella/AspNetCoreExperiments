@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Glyde.AspNetCore.Versioning;
+using Glyde.Web.Api.Versioning;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Glyde.AspNetCore.Controllers
 {
+    [IgnoreVersioningConvention]
     public abstract class ApiController<TResource, TResourceId> : ControllerBase
         where TResource : class
     {
