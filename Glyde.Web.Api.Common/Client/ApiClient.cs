@@ -19,7 +19,6 @@ namespace Glyde.Web.Api.Client
         public async Task<IEnumerable<TResource>> GetAll()
         {
             var response = await _client.GetAsync(_resourceUri);
-
             var stream = await response.Content.ReadAsStreamAsync();
 
             using (var reader = new JsonTextReader(new StreamReader(stream)))

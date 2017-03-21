@@ -12,15 +12,17 @@ namespace Glyde.Web.Api.Client
 {
     public class ApiClientFactory : IApiClientFactory
     {
+        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfigurationService _configurationService;
         private readonly IResourceMetadataProvider _resourceMetadataProvider;
 
         private readonly ConcurrentDictionary<Type, Func<HttpClient, Uri, object>> _typedApiClientFactory =
             new ConcurrentDictionary<Type, Func<HttpClient, Uri, object>>();
 
-        public ApiClientFactory(IConfigurationService configurationService,
+        public ApiClientFactory(IHttpClientFactory httpClientFactory, IConfigurationService configurationService,
             IResourceMetadataProvider resourceMetadataProvider)
         {
+            _httpClientFactory = httpClientFactory;
             _configurationService = configurationService;
             _resourceMetadataProvider = resourceMetadataProvider;
         }
@@ -61,7 +63,7 @@ namespace Glyde.Web.Api.Client
                 httpClientSettings.UseProxy = resourceConfiguration.UseProxy.Value;
 
             return (
-                HttpClientFactory.GetHttpClient(httpClientSettings),
+                _httpClientFactory.GetHttpClient(httpClientSettings),
                 new Uri($"v{resourceMetadata.Version}/{resourceMetadata.Name}", UriKind.Relative),
                 _typedApiClientFactory.GetOrAdd(typeof(TResource), type => CreateConstructorInvoker(type, resourceMetadata))
                 );
