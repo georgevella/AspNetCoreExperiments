@@ -15,6 +15,7 @@ namespace Glyde.Bookmarks.Api
         {
             var host = new WebHostBuilder()
                 .UseKestrel()
+                .UseUrls("http://0.0.0.0:8181/")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseGlydeBootstrappingForApi()
                 .Build();
