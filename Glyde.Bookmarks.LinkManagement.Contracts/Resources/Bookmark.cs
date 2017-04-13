@@ -2,7 +2,7 @@
 
 namespace Glyde.Bookmarks.LinkManagement.Resources
 {
-    [Resource("bookmarks", Version = 2)]
+    [Resource("bookmarks", Version = 1)]
     public class Bookmark : Resource<string>
     {
         public string Title { get; set; }   

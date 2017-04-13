@@ -6,7 +6,7 @@ namespace Glyde.AspNetCore.Framework
     {
         public void OnProvidersExecuting(ApplicationModelProviderContext context)
         {
-            
+            //foreach (var item in context.ControllerTypes)
         }
 
         public void OnProvidersExecuted(ApplicationModelProviderContext context)

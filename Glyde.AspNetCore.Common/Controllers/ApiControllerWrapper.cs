@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using System.Threading.Tasks;
 using Glyde.AspNetCore.Versioning;
+using Glyde.Web.Api.Controllers;
+using Glyde.Web.Api.Resources;
 using Glyde.Web.Api.Versioning;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,36 +15,47 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 namespace Glyde.AspNetCore.Controllers
 {
     [IgnoreVersioningConvention]
-    public abstract class ApiController<TResource, TResourceId> : ControllerBase
-        where TResource : class
+    public class ApiControllerWrapper<TApiController, TResource, TResourceId> : ControllerBase
+        where TApiController : IApiController<TResource, TResourceId>
+        where TResource : Resource<TResourceId>
     {
-        protected Func<TResourceId, TResource, Task<bool>> UpdateAction { get; set; } = null;
-        protected Func<TResource, Task<TResourceId>> CreateAction { get; set; } = null;
-        protected Func<TResourceId, Task<bool>> DeleteAction { get; set; } = null;
-        protected Func<Task<IEnumerable<TResource>>> GetAllAction { get; set; } = null;
-        protected Func<TResourceId, Task<TResource>> GetAction { get; set; } = null;
+        private readonly IApiController<TResource, TResourceId> _apiController;
+        private readonly IEnumerable<MethodInfo> _methods;
 
+        public ApiControllerWrapper(TApiController apiController)
+        {
+            _apiController = apiController;
+
+            var typeInfo = _apiController.GetType().GetTypeInfo();
+            _methods = typeInfo.DeclaredMethods;
+        }
+
+        private bool CanInvokeAction(Expression<Action> actionExpression)
+        {
+            var method = ((MethodCallExpression) actionExpression.Body).Method;
+            return _methods.Contains(method);
+        }
 
         [HttpGet]
         [Route("")]
         public virtual async Task<IActionResult> GetAll()
         {            
-            if (GetAllAction == null)
+            if (CanInvokeAction(() => _apiController.GetAll()))
                 return BadRequest();
 
-            return new JsonResult(await GetAllAction());
+            return new JsonResult(await _apiController.GetAll());
         }
 
         [HttpGet]
         [Route("{id}")]
         public virtual async Task<IActionResult> Get(TResourceId id)
         {
-            if (GetAction == null)
+            if (CanInvokeAction(() => _apiController.Get(id)))
                 return BadRequest();
 
             try
             {
-                var item = await GetAction(id);
+                var item = await _apiController.Get(id);
 
                 if (item != null)
                 {
@@ -58,12 +74,12 @@ namespace Glyde.AspNetCore.Controllers
         [Route("{id}")]
         public virtual async Task<IActionResult> Update(TResourceId id, [FromBody]TResource resource)
         {
-            if (UpdateAction == null)
+            if (CanInvokeAction(() => _apiController.Update(id, resource)))
                 return BadRequest();
 
             try
             {
-                var result = await UpdateAction(id, resource);
+                var result = await _apiController.Update(id, resource);
 
                 return result ? NoContent() : new StatusCodeResult(StatusCodes.Status304NotModified);
             }
@@ -77,12 +93,12 @@ namespace Glyde.AspNetCore.Controllers
         [Route("")]
         public virtual async Task<IActionResult> Create([FromBody]TResource resource)
         {
-            if (CreateAction == null)
+            if (CanInvokeAction(() => _apiController.Create(resource)))
                 return BadRequest();
 
             try
             {
-                var id = await CreateAction(resource);
+                var id = await _apiController.Create(resource);
 
                 // TODO: build get uri from id returned above
                 return Created(string.Empty, resource);
@@ -97,12 +113,12 @@ namespace Glyde.AspNetCore.Controllers
         [Route("{id}")]
         public virtual async Task<IActionResult> Delete(TResourceId id)
         {
-            if (DeleteAction == null)
+            if (CanInvokeAction(() => _apiController.Delete(id)))
                 return BadRequest();
 
             try
             {
-                return await DeleteAction(id) ? (IActionResult)NoContent() : NotFound();
+                return await _apiController.Delete(id) ? (IActionResult)NoContent() : NotFound();
             }
             catch (Exception e)
             {

@@ -1,5 +1,6 @@
 using System.Linq;
 using Glyde.AspNetCore.Controllers;
+using Glyde.AspNetCore.Framework;
 using Glyde.AspNetCore.Versioning;
 using Glyde.Web.Api.Resources;
 using Microsoft.AspNetCore.Hosting;
@@ -22,6 +23,11 @@ namespace Glyde.AspNetCore.Bootstrapping
             var mvcBuilder = services.AddMvcCore().AddJsonFormatters();
 
             ConfigureGlydeServices(mvcBuilder.PartManager, services);
+
+            // register generic Restful API controller support
+            mvcBuilder.PartManager.FeatureProviders.Clear();
+            mvcBuilder.PartManager.FeatureProviders.Add(new GenericRestfulApiControllerFeatureProvider());
+            mvcBuilder.PartManager.FeatureProviders.Add(new DefaultControllerFeatureProvider());
 
             services.Configure<MvcOptions>(options =>
             {

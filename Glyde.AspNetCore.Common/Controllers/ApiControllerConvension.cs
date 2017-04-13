@@ -50,28 +50,6 @@ namespace Glyde.AspNetCore.Controllers
             }
         }
 
-        public static bool IsApiController(TypeInfo type)
-        {
-            if (type.AsType() == typeof(object))
-            {
-                // object is the root of all
-                return false;
-            }
-
-            if (type.BaseType.IsConstructedGenericType &&
-                type.BaseType.GetGenericTypeDefinition() == typeof(ApiController<,>))
-            {                                
-                return true;
-            }
-
-            if (type.BaseType != null && type.BaseType != typeof(object))
-            {
-                return IsApiController(type.BaseType.GetTypeInfo());
-            }
-
-            return false;
-        }
-
         public static bool IsApiController(TypeInfo type, out TypeInfo resourceType, out TypeInfo resourceIdType)
         {
             resourceType = null;
@@ -83,13 +61,13 @@ namespace Glyde.AspNetCore.Controllers
                 return false;
             }
 
-            if (type.BaseType.IsConstructedGenericType &&
-                type.BaseType.GetGenericTypeDefinition() == typeof(ApiController<,>))
+            if (type.IsGenericType &&
+                type.GetGenericTypeDefinition() == typeof(ApiControllerWrapper<,,>))
             {
-                var typeArguments = type.BaseType.GenericTypeArguments;
+                var typeArguments = type.GenericTypeArguments;
 
-                resourceType = typeArguments[0].GetTypeInfo();
-                resourceIdType = typeArguments[1].GetTypeInfo();
+                resourceType = typeArguments[1].GetTypeInfo();
+                resourceIdType = typeArguments[2].GetTypeInfo();
 
                 return true;
             }
