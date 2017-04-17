@@ -8,12 +8,12 @@ using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Glyde.AspNetCore.Versioning
 {
-    public class ApiPrefixConvention : IApplicationModelConvention
+    public class DefaultControllerVersioningConvention : IApplicationModelConvention
     {
         private readonly string _prefix;
         private readonly bool _requiresVersion;
 
-        public ApiPrefixConvention(string prefix)
+        public DefaultControllerVersioningConvention(string prefix)
         {
             if (prefix == null)
                 throw new ArgumentNullException(nameof(prefix));

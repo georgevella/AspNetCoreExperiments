@@ -2,40 +2,47 @@
 using System.Linq;
 using System.Reflection;
 using System.Text.RegularExpressions;
+using Glyde.Web.Api.Controllers;
 using Glyde.Web.Api.Resources;
 using Glyde.Web.Api.Versioning;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 
 namespace Glyde.AspNetCore.Controllers
 {
-    public class ApiControllerConvension : IApplicationModelConvention
+    public class ApiControllerConvention : IApplicationModelConvention
     {
         private readonly string _prefix;
+        private readonly IApiControllerMetadataProvider _apiControllerMetadataProvider;
         private readonly IResourceMetadataProvider _resourceMetadataProvider;
 
-        public ApiControllerConvension(string prefix, IResourceMetadataProvider resourceMetadataProvider)
+        public ApiControllerConvention(string prefix, IApiControllerMetadataProvider apiControllerMetadataProvider, IResourceMetadataProvider resourceMetadataProvider)
         {
-            if (prefix == null) throw new ArgumentNullException(nameof(prefix));
-            if (resourceMetadataProvider == null) throw new ArgumentNullException(nameof(resourceMetadataProvider));
+            if (prefix == null)
+                throw new ArgumentNullException(nameof(prefix));
+            if (apiControllerMetadataProvider == null)
+                throw new ArgumentNullException(nameof(apiControllerMetadataProvider));
+            if (resourceMetadataProvider == null)
+                throw new ArgumentNullException(nameof(resourceMetadataProvider));
 
             _prefix = prefix;
+            _apiControllerMetadataProvider = apiControllerMetadataProvider;
             _resourceMetadataProvider = resourceMetadataProvider;
 
             if (!_prefix.Contains("[version]"))
             {
                 throw new ArgumentException($"[version] placement not available in prefix '{prefix}'.", nameof(prefix));
             }
-
-
         }
+
         public void Apply(ApplicationModel application)
         {
             foreach (var controller in application.Controllers)
             {
-                if (!IsApiController(controller.ControllerType, out TypeInfo resourceType, out TypeInfo resourceIdType))
+                if (!IsWrappedApiController(controller.ControllerType, out TypeInfo resourceType, out TypeInfo resourceIdType))
                     continue;
-
+                
                 var resourceMetadata = _resourceMetadataProvider.GetMetadataFor(resourceType);
 
                 foreach (var controllerSelector in controller.Selectors)
@@ -47,10 +54,12 @@ namespace Glyde.AspNetCore.Controllers
                     );
                     controllerSelector.AttributeRouteModel = finalRouteModel;
                 }
+
+                controller.ControllerName = $"{resourceMetadata.Name}Controller";
             }
         }
 
-        public static bool IsApiController(TypeInfo type, out TypeInfo resourceType, out TypeInfo resourceIdType)
+        public static bool IsWrappedApiController(TypeInfo type, out TypeInfo resourceType, out TypeInfo resourceIdType)
         {
             resourceType = null;
             resourceIdType = null;
@@ -74,7 +83,7 @@ namespace Glyde.AspNetCore.Controllers
 
             if (type.BaseType != null && type.BaseType != typeof(object))
             {
-                return IsApiController(type.BaseType.GetTypeInfo(), out resourceType, out resourceIdType);
+                return IsWrappedApiController(type.BaseType.GetTypeInfo(), out resourceType, out resourceIdType);
             }
 
             return false;

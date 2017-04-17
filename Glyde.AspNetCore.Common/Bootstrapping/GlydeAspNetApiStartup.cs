@@ -1,12 +1,16 @@
 using System.Linq;
+using Glyde.AspNetCore.ApiExplorer;
 using Glyde.AspNetCore.Controllers;
 using Glyde.AspNetCore.Framework;
 using Glyde.AspNetCore.Versioning;
+using Glyde.Web.Api.Controllers;
 using Glyde.Web.Api.Resources;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Glyde.AspNetCore.Bootstrapping
 {
@@ -24,10 +28,14 @@ namespace Glyde.AspNetCore.Bootstrapping
 
             ConfigureGlydeServices(mvcBuilder.PartManager, services);
 
+            var apiControllerMetadataProvider = new ApiControllerMetadataProvider();
+
             // register generic Restful API controller support
             mvcBuilder.PartManager.FeatureProviders.Clear();
-            mvcBuilder.PartManager.FeatureProviders.Add(new GenericRestfulApiControllerFeatureProvider());
-            mvcBuilder.PartManager.FeatureProviders.Add(new DefaultControllerFeatureProvider());
+            mvcBuilder.PartManager.FeatureProviders.Add(new ApiControllerFeatureProvider(apiControllerMetadataProvider));
+            mvcBuilder.PartManager.FeatureProviders.Add(new DefaultControllerFeatureProvider(apiControllerMetadataProvider));
+
+            mvcBuilder.AddApiExplorer();
 
             services.Configure<MvcOptions>(options =>
             {
@@ -38,10 +46,10 @@ namespace Glyde.AspNetCore.Bootstrapping
                     options.OutputFormatters.Add(jsonFormatter);
                 }
 
-                options.Conventions.Add(new ApiControllerConvension("api/v[version]", new ResourceMetadataProvider()));
-                options.Conventions.Add(new ApiPrefixConvention("api/v[version]"));
+                options.Conventions.Add(new ApiControllerConvention("v[version]", apiControllerMetadataProvider, new ResourceMetadataProvider()));
+                options.Conventions.Add(new DefaultControllerVersioningConvention("v[version]"));
+                options.Conventions.Add(new ApiExplorerVisibilityEnabledConvention());
             });
-
-        }        
+        }
     }
 }

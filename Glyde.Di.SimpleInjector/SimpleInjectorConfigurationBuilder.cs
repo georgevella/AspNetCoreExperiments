@@ -31,5 +31,10 @@ namespace Glyde.Di.SimpleInjector
         {
             _container.Register(factoryMethod, Lifestyle.Scoped);
         }
+
+        public void AddSingletonService<TService>() where TService : class
+        {
+            _container.RegisterSingleton<TService>();
+        }
     }
 }

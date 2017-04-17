@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Net;
 using System.Reflection;
 using System.Threading.Tasks;
 using Glyde.AspNetCore.Versioning;
@@ -10,6 +11,7 @@ using Glyde.Web.Api.Resources;
 using Glyde.Web.Api.Versioning;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace Glyde.AspNetCore.Controllers

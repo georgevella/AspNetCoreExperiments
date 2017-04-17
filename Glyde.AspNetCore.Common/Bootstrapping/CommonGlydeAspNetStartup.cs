@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using Glyde.AspNetCore.ApiExplorer;
 using Glyde.AspNetCore.Controllers;
 using Glyde.AspNetCore.Versioning;
 using Glyde.Di.SimpleInjector;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.ViewComponents;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +23,7 @@ using SimpleInjector.Integration.AspNetCore.Mvc;
 
 namespace Glyde.AspNetCore.Bootstrapping
 {
-    public abstract  class CommonGlydeAspNetStartup
+    public abstract class CommonGlydeAspNetStartup
     {
         private readonly Container _container = new Container();
         private readonly SimpleInjectorDiBootstrapperStage _diBootstrapperStage;
@@ -67,7 +69,7 @@ namespace Glyde.AspNetCore.Bootstrapping
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();

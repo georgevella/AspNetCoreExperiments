@@ -19,6 +19,9 @@ namespace Glyde.Web.Api.Client
         where TResource : Resource<TResourceId>
 
     {
+        Task<IEnumerable<TResource>> GetAll();
+        Task<TResource> Create(TResource resource);
+
         Task<TResource> Update(TResourceId id, TResource resource);
         Task<TResource> Get(TResourceId id);
         Task Delete(TResourceId id);

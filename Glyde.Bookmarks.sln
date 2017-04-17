@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+VisualStudioVersion = 15.0.26403.3
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Glyde.Bookmarks.Api", "src\Glyde.Bookmarks.Api\Glyde.Bookmarks.Api.csproj", "{4F7299EB-D283-4A61-9E80-9D302BBC486A}"
 EndProject
@@ -40,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glyde.Web.Api.Common", "Glyde.Web.Api.Common\Glyde.Web.Api.Common.csproj", "{57C01D9D-EB73-4A59-9B21-0CAF2C95301C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glyde.Web.Api.Common.Tests", "Glyde.Web.Api.Common.Tests\Glyde.Web.Api.Common.Tests.csproj", "{49EB3132-3505-492B-81E8-1D90328CC1AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Glyde.Bookmarks.LinkManagement.Tests", "Glyde.Bookmarks.LinkManagement.Tests\Glyde.Bookmarks.LinkManagement.Tests.csproj", "{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -225,6 +227,18 @@ Global
 		{49EB3132-3505-492B-81E8-1D90328CC1AC}.Release|x64.Build.0 = Release|Any CPU
 		{49EB3132-3505-492B-81E8-1D90328CC1AC}.Release|x86.ActiveCfg = Release|Any CPU
 		{49EB3132-3505-492B-81E8-1D90328CC1AC}.Release|x86.Build.0 = Release|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Debug|x64.Build.0 = Debug|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Debug|x86.Build.0 = Debug|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Release|x64.ActiveCfg = Release|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Release|x64.Build.0 = Release|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Release|x86.ActiveCfg = Release|Any CPU
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -244,5 +258,6 @@ Global
 		{04C15004-B8F3-4F91-A9F9-B257B2109940} = {9B5D6F63-A0BC-4EDB-B0CA-AA336ADDED50}
 		{57C01D9D-EB73-4A59-9B21-0CAF2C95301C} = {04C15004-B8F3-4F91-A9F9-B257B2109940}
 		{49EB3132-3505-492B-81E8-1D90328CC1AC} = {04C15004-B8F3-4F91-A9F9-B257B2109940}
+		{A04F3E7F-B73C-4D10-A425-128DC38F3AA8} = {80C545DB-0AF3-4455-B2DC-6D34EEA0A405}
 	EndGlobalSection
 EndGlobal

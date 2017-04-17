@@ -1,4 +1,5 @@
-﻿using Glyde.Web.Api.Resources;
+﻿using System.Collections.Generic;
+using Glyde.Web.Api.Resources;
 
 namespace Glyde.Bookmarks.LinkManagement.Resources
 {
@@ -10,5 +11,7 @@ namespace Glyde.Bookmarks.LinkManagement.Resources
         public string Url { get; set; }
 
         public string Id { get; set; }
+
+        public IEnumerable<string> Tags { get; set; }
     }
 }

@@ -64,7 +64,7 @@ namespace Glyde.Web.Api.Client
 
             return (
                 _httpClientFactory.GetHttpClient(httpClientSettings),
-                new Uri($"v{resourceMetadata.Version}/{resourceMetadata.Name}", UriKind.Relative),
+                new Uri($"api/v{resourceMetadata.Version}/{resourceMetadata.Name}", UriKind.Relative),
                 _typedApiClientFactory.GetOrAdd(typeof(TResource), type => CreateConstructorInvoker(type, resourceMetadata))
                 );
         }
